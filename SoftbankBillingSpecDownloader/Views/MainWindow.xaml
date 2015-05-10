@@ -1,0 +1,42 @@
+﻿<Window x:Class="SoftbankBillingSpecDownloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SoftbankBillingSpecDownloader"
+        xmlns:xw="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Softbank 請求明細"
+        Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="Height">
+    <xw:BusyIndicator x:Name="busyIndicator" BusyContent="ダウンロードしています...">
+        <Grid Margin="7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="7" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="ユーザーID :" Grid.Row="0" />
+            <TextBlock Text="パスワード :" Grid.Row="1"/>
+            <TextBlock Text="対象年月 :" Grid.Row="2" />
+
+            <TextBox x:Name="userIdBox" Grid.Row="0" Grid.Column="2" Margin="0,0,0,7" />
+            <PasswordBox x:Name="passwordBox" Grid.Row="1" Grid.Column="2" Margin="0,0,0,7" />
+            <xw:DateTimeUpDown x:Name="datePicker" Grid.Row="2" Grid.Column="2" Margin="0,0,0,7" Format="YearMonth" />
+
+            <Grid Grid.Row="4" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="downloadButton" Grid.Column="1" Content="ダウンロード" IsEnabled="False" />
+            </Grid>
+        </Grid>
+    </xw:BusyIndicator>
+</Window>
