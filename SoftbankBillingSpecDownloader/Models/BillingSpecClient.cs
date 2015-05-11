@@ -22,9 +22,9 @@ namespace SoftbankBillingSpecDownloader.Models
     {
         #region プロパティ
         /// <summary>
-        /// HTTP通信を行うための機能を取得します。。
+        /// HTTP通信を行うための機能を取得します。
         /// </summary>
-        private HttpClient Client { get; }
+        private HttpClient Client { get; } = new HttpClient();
         #endregion
 
 
@@ -33,11 +33,7 @@ namespace SoftbankBillingSpecDownloader.Models
         /// インスタンスを生成します。
         /// </summary>
         public BillingSpecClient()
-        {
-            var cookie = new CookieContainer();
-            var handler = new HttpClientHandler { CookieContainer = cookie, UseCookies = true };
-            this.Client = new HttpClient(handler);
-        }
+        {}
         #endregion
 
 
@@ -79,14 +75,14 @@ namespace SoftbankBillingSpecDownloader.Models
         {
             var formData = new Dictionary<string, string>
             {
-                ["hidPageID"] = string.Empty,
-                ["@base"] = string.Empty,
-                ["hidNext_page"] = string.Empty,
-                ["hidCountNG"] = "0",
-                ["hidPreUser_id"] = string.Empty,
-                ["hidReadchk"] = "1",
-                ["txtUser_id"] = userId,
-                ["pasPassword"] = password,
+                ["hidPageID"]       = string.Empty,
+                ["@base"]           = string.Empty,
+                ["hidNext_page"]    = string.Empty,
+                ["hidCountNG"]      = "0",
+                ["hidPreUser_id"]   = string.Empty,
+                ["hidReadchk"]      = "1",
+                ["txtUser_id"]      = userId,
+                ["pasPassword"]     = password,
             };
             using (var content = new FormUrlEncodedContent(formData))
             {
@@ -107,14 +103,14 @@ namespace SoftbankBillingSpecDownloader.Models
         {
             var formData = new Dictionary<string, string>
             {
-                ["hidPageID"] = string.Empty,
-                ["base"] = "login.jsp",
-                ["hidNext_page"] = "top_usr.jsp",
-                ["hidCountNG"] = "0",
-                ["hidPreUser_id"] = userId,
-                ["txtUser_id"] = userId,
-                ["pasPassword"] = password,
-                ["BV_UseBVCookie"] = "NO",
+                ["hidPageID"]       = string.Empty,
+                ["base"]            = "login.jsp",
+                ["hidNext_page"]    = "top_usr.jsp",
+                ["hidCountNG"]      = "0",
+                ["hidPreUser_id"]   = userId,
+                ["txtUser_id"]      = userId,
+                ["pasPassword"]     = password,
+                ["BV_UseBVCookie"]  = "NO",
             };
             using (var content = new FormUrlEncodedContent(formData))
             {
@@ -193,8 +189,7 @@ namespace SoftbankBillingSpecDownloader.Models
         private async Task<int> GetLastPageNumber(DateTime month)
         {
             //--- 料金明細内訳のトップページを取得
-            var date = month.ToString("yyyyMM");
-            var billYm = $"?billYm={date}";
+            var billYm = $"?billYm={month.ToString("yyyyMM")}";
             var uri = new Uri($"https://bltm11.my.softbank.jp/wcot/billTotal/doBillItems{billYm}");
             var response = await this.Client.GetAsync(uri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
